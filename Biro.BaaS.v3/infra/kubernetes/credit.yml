@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: credit-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: credit-service
+  template:
+    metadata:
+      labels:
+        app: credit-service
+    spec:
+      containers:
+      - name: credit-service
+        image: your-container-registry/biro-credit-service:latest
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: credit-service
+spec:
+  selector:
+    app: credit-service
+  ports:
+  - port: 80
+    targetPort: 80
