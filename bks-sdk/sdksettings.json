@@ -1,0 +1,52 @@
+{
+  "bkssdk": {
+    "LicenseKey": "BKS-2025-PREMIUM-KEY",
+    "ApplicationName": "MinhaAPI",
+    "Redis": {
+      "ConnectionString": "localhost:6379",
+      "InstanceName": "bks-sdk",
+      "Database": 0
+    },
+    "Jwt": {
+      //yJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJia3Muc2RrIiwiYXVkIjoiYXBpLXVzZXJzIiwiaWF0IjoxNzU2ODM1MjUyLCJleHAiOjE3NTY5MjE2NTJ9.AY30Mu8i_xMO_8jvTiXkrMSbajao9StNfI0urSifIBg
+      "SecretKey": "super-secret-jwt-key-bks-sdk-2025-Development",
+      "Issuer": "bks.sdk",
+      "Audience": "api-users",
+      "ExpirationInMinutes": 60
+    },
+    "EventBroker": {
+      "BrokerType": "RabbitMQ",
+      "ConnectionString": "amqp://guest:guest@localhost:5672/",
+      "AdditionalSettings": {
+        "ExchangeName": "bks-sdk-events",
+        "QueuePrefix": "bks-demo",
+        "RetryAttempts": "3",
+        "RetryDelay": "5000"
+      }
+    },
+    "Observability": {
+      "ServiceName": "bks.sdk.demo",
+      "ServiceVersion": "1.0.0",
+      "OpenTelemetry": {
+        "OtlpEndpoint": "http://192.168.8.63:4317",
+        "EnableConsoleExporter": true,
+        "TracingSampleRate": 1.0,
+        "ResourceAttributes": {
+          "environment": "development",
+          "team": "backend"
+        },
+        "Exporters": {
+          "Otlp": {
+            "Endpoint": "http://192.168.8.63:4317",
+            "Protocol": "grpc",
+            "TimeoutMilliseconds": 10000,
+            "Headers": {
+              "api-key": "sdk-key"
+            }
+          },
+          "EnableConsole": true
+        }
+      }
+    }
+  }
+}

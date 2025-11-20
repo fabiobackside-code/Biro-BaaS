@@ -1,0 +1,12 @@
+D:\Fabio\BackSide\Projeto\BaaS\Aplicacao\SDK\bks-sdk-v99\bks-sdk-v99\bin\Debug\net8.0\bks-sdk-v99.deps.json
+D:\Fabio\BackSide\Projeto\BaaS\Aplicacao\SDK\bks-sdk-v99\bks-sdk-v99\bin\Debug\net8.0\bks-sdk-v99.dll
+D:\Fabio\BackSide\Projeto\BaaS\Aplicacao\SDK\bks-sdk-v99\bks-sdk-v99\bin\Debug\net8.0\bks-sdk-v99.pdb
+D:\Fabio\BackSide\Projeto\BaaS\Aplicacao\SDK\bks-sdk-v99\bks-sdk-v99\obj\Debug\net8.0\bks-sdk-v99.GeneratedMSBuildEditorConfig.editorconfig
+D:\Fabio\BackSide\Projeto\BaaS\Aplicacao\SDK\bks-sdk-v99\bks-sdk-v99\obj\Debug\net8.0\bks-sdk-v99.AssemblyInfoInputs.cache
+D:\Fabio\BackSide\Projeto\BaaS\Aplicacao\SDK\bks-sdk-v99\bks-sdk-v99\obj\Debug\net8.0\bks-sdk-v99.AssemblyInfo.cs
+D:\Fabio\BackSide\Projeto\BaaS\Aplicacao\SDK\bks-sdk-v99\bks-sdk-v99\obj\Debug\net8.0\bks-sdk-v99.csproj.CoreCompileInputs.cache
+D:\Fabio\BackSide\Projeto\BaaS\Aplicacao\SDK\bks-sdk-v99\bks-sdk-v99\obj\Debug\net8.0\bks-sdk-v99.dll
+D:\Fabio\BackSide\Projeto\BaaS\Aplicacao\SDK\bks-sdk-v99\bks-sdk-v99\obj\Debug\net8.0\refint\bks-sdk-v99.dll
+D:\Fabio\BackSide\Projeto\BaaS\Aplicacao\SDK\bks-sdk-v99\bks-sdk-v99\obj\Debug\net8.0\bks-sdk-v99.pdb
+D:\Fabio\BackSide\Projeto\BaaS\Aplicacao\SDK\bks-sdk-v99\bks-sdk-v99\obj\Debug\net8.0\ref\bks-sdk-v99.dll
+D:\Fabio\BackSide\Projeto\BaaS\Aplicacao\SDK\bks-sdk-v99\bks-sdk-v99\obj\Debug\net8.0\bks-sdk-v99.csproj.AssemblyReference.cache
