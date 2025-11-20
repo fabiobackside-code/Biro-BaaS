@@ -15,12 +15,8 @@ public static class BKSFrameworkInitializer
 {
     public static IServiceCollection AddBKSFramework(
         this IServiceCollection services,
-        IConfiguration configuration,
-        Action<BKSFrameworkOptions>? configure = null)
+    IConfiguration configuration)
     {
-        var options = new BKSFrameworkOptions();
-        configure?.Invoke(options);
-
         // 1. Core - Configurações e Pipeline
         services.AddBKSFrameworkCore(configuration);
 
@@ -30,14 +26,14 @@ public static class BKSFrameworkInitializer
         // 3. Validation - Sistema de validação interno
         services.AddBKSFrameworkValidation();
 
-        // 4. Processing - Mediator ou TransactionProcessor
-        services.AddBKSFrameworkProcessing(options);
+    // 4. Processing - TransactionProcessor
+    services.AddBKSFrameworkProcessing(new BKSFrameworkOptions());
 
         // 5. Events - Sistema de eventos (se habilitado)
         services.AddBKSFrameworkEvents(configuration);
 
         // 6. Observability - Logging e Tracing
-        services.AddBKSFrameworkObservability(configuration);
+        services.AddBKSFrameworkObservability();
 
         return services;
     }

@@ -1,8 +1,5 @@
-﻿using bks.sdk.Common.Enums;
 using bks.sdk.Core.Configuration;
 using bks.sdk.Events.Abstractions;
-using bks.sdk.Events.Providers.InMemory;
-using bks.sdk.Events.Providers.Kafka;
 using bks.sdk.Events.Providers.RabbitMQ;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -31,31 +28,9 @@ public static class EventServiceExtensions
             return services;
         }
 
-        // Registrar baseado no provider configurado
-        switch (settings.Events.Provider)
-        {
-            case EventProvider.InMemory:
-                services.AddSingleton<InMemoryEventDispatcher>();
-                services.AddSingleton<InMemoryEventPublisher>();
-                services.AddSingleton<IEventPublisher>(provider => provider.GetRequiredService<InMemoryEventPublisher>());
-                services.AddSingleton<IEventSubscriber>(provider => provider.GetRequiredService<InMemoryEventPublisher>());
-                break;
-
-            case EventProvider.RabbitMQ:
-                ValidateRabbitMQConnection(settings);
-                services.AddSingleton<IEventPublisher, RabbitMQEventPublisher>();
-                services.AddSingleton<IEventSubscriber, RabbitMQEventSubscriber>();
-                break;
-
-            case EventProvider.Kafka:
-                ValidateKafkaConnection(settings);
-                services.AddSingleton<IEventPublisher, KafkaEventPublisher>();
-                services.AddSingleton<IEventSubscriber, KafkaEventSubscriber>();
-                break;
-
-            default:
-                throw new InvalidOperationException($"Provider de eventos não suportado: {settings.Events.Provider}");
-        }
+        ValidateRabbitMQConnection(settings);
+        services.AddSingleton<IEventPublisher, RabbitMQEventPublisher>();
+        services.AddSingleton<IEventSubscriber, RabbitMQEventSubscriber>();
 
         // Registrar handlers automaticamente
         RegisterEventHandlers(services);
@@ -77,13 +52,6 @@ public static class EventServiceExtensions
         }
     }
 
-    private static void ValidateKafkaConnection(BKSFrameworkSettings settings)
-    {
-        if (string.IsNullOrWhiteSpace(settings.Events.ConnectionString))
-        {
-            throw new InvalidOperationException("ConnectionString (BootstrapServers) é obrigatório para Kafka");
-        }
-    }
 
     private static void RegisterEventHandlers(IServiceCollection services)
     {

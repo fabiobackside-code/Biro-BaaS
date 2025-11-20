@@ -1,4 +1,3 @@
-﻿using bks.sdk.Common.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,7 +26,6 @@ public record DataEncryptionConfiguration
 public record EventsConfiguration
 {
     public bool Enabled { get; set; } = false;
-    public EventProvider Provider { get; set; } = EventProvider.InMemory;
     public string ConnectionString { get; set; } = string.Empty;
     public string TopicPrefix { get; set; } = "bks-framework";
     public Dictionary<string, string> AdditionalSettings { get; set; } = new();
@@ -60,7 +58,6 @@ public record ObservabilityConfiguration
 
 public record ProcessingConfiguration
 {
-    public ProcessingMode Mode { get; set; } = ProcessingMode.Mediator;
     public bool EnablePipelineEvents { get; set; } = true;
     public bool ValidationEnabled { get; set; } = true;
     public int TimeoutSeconds { get; set; } = 30;

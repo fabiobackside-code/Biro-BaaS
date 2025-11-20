@@ -1,14 +1,8 @@
-﻿using bks.sdk.Common.Enums;
 using bks.sdk.Processing.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace bks.sdk.Processing.Factories;
-
 
 public class ProcessorFactory : IProcessorFactory
 {
@@ -19,14 +13,9 @@ public class ProcessorFactory : IProcessorFactory
         _serviceProvider = serviceProvider;
     }
 
-    public IBKSBusinessProcessor<TRequest, TResponse>? GetProcessor<TRequest, TResponse>(ProcessingMode mode)
+    public IBKSBusinessProcessor<TRequest, TResponse>? GetProcessor<TRequest, TResponse>()
         where TRequest : class
     {
-        return mode switch
-        {
-            ProcessingMode.Mediator => _serviceProvider.GetService<IBKSMediatorProcessor<TRequest, TResponse>>(),
-            ProcessingMode.TransactionProcessor => _serviceProvider.GetService<IBKSTransactionProcessor<TRequest, TResponse>>(),
-            _ => null
-        };
+        return _serviceProvider.GetService<IBKSTransactionProcessor<TRequest, TResponse>>();
     }
 }

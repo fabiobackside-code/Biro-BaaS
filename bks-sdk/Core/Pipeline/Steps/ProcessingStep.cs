@@ -36,31 +36,11 @@ public class ProcessingStep<TRequest, TResponse> : BasePipelineStep<TRequest, TR
 
         try
         {
-            _logger.Trace($"Iniciando processamento - Modo: {_settings.Processing.Mode}");
+        _logger.Trace("Iniciando processamento via Transaction Processor");
 
-            Result<TResponse> result;
+        var result = await ProcessViaTransactionProcessorAsync(request, cancellationToken);
 
-            if (_settings.Processing.Mode == ProcessingMode.Mediator)
-            {
-                result = await ProcessViaMediatorAsync(request, cancellationToken);
-            }
-            else if (_settings.Processing.Mode == ProcessingMode.TransactionProcessor)
-            {
-                result = await ProcessViaTransactionProcessorAsync(request, cancellationToken);
-            }
-            else 
-            {
-                if (request is BaseTransaction)
-                {
-                    result = await ProcessViaTransactionProcessorAsync(request, cancellationToken);
-                }
-                else
-                {
-                    result = await ProcessViaMediatorAsync(request, cancellationToken);
-                }
-            }
-
-                await OnStepCompleted(request, result);
+        await OnStepCompleted(request, result);
             return result;
         }
         catch (Exception ex)
@@ -68,20 +48,6 @@ public class ProcessingStep<TRequest, TResponse> : BasePipelineStep<TRequest, TR
             await OnStepFailed(request, ex);
             throw;
         }
-    }
-
-    private async Task<Result<TResponse>> ProcessViaMediatorAsync(
-        TRequest request,
-        CancellationToken cancellationToken)
-    {
-        var processor = _serviceProvider.GetService<IBKSMediatorProcessor<TRequest, TResponse>>();
-
-        if (processor == null)
-        {
-            return Result<TResponse>.Failure($"Nenhum processador Mediator encontrado para {typeof(TRequest).Name}");
-        }
-
-        return await processor.ProcessAsync(request, cancellationToken);
     }
 
     private async Task<Result<TResponse>> ProcessViaTransactionProcessorAsync(

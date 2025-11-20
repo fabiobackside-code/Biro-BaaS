@@ -1,6 +1,6 @@
-﻿# BKS SDK - Framework para .NET 8
+# BKS SDK - Framework para .NET 8
 
-[![Version](https://img.shields.io/badge/version-2.0.0-blue.svg)](https://github.com/bks-sdk/bks-sdk)
+[![Version](https://img.shields.io/badge/version-2.1.0-blue.svg)](https://github.com/bks-sdk/bks-sdk)
 [![.NET](https://img.shields.io/badge/.NET-8.0-purple.svg)](https://dotnet.microsoft.com/)
 [![License](https://img.shields.io/badge/license-proprietary-red.svg)]()
 
@@ -13,8 +13,7 @@ Um framework robusto e modular para .NET 8 que oferece uma base sólida para des
 - 🔐 **Autenticação Completa**: Sistema de validação de licença e JWT integrado
 - 📊 **Observabilidade Nativa**: OpenTelemetry, Serilog e tracing distribuído
 - 🔄 **Processamento de Transações**: Pipeline seguro com tokenização e eventos
-- 📡 **Sistema de Eventos**: Suporte para RabbitMQ e Kafka
-- 🧩 **Mediator Pattern**: Implementação própria para CQRS
+- 📡 **Sistema de Eventos**: Suporte para RabbitMQ
 - 🏗️ **Clean Architecture**: Separação clara de responsabilidades
 - 🔒 **Segurança**: Criptografia, correlação de transações e auditoria
 
@@ -33,7 +32,7 @@ O BKS SDK implementa os seguintes padrões arquiteturais:
 ### Clean Architecture
 O SDK segue os princípios da Clean Architecture com separação clara entre:
 - **Core**: Regras de negócio e configurações centrais
-- **Application**: Casos de uso e orquestração (Mediator)
+- **Application**: Casos de uso e orquestração
 - **Infrastructure**: Implementações técnicas (Cache, Events, Auth)
 - **Presentation**: Middlewares e configurações de API
 
@@ -42,17 +41,6 @@ O SDK segue os princípios da Clean Architecture com separação clara entre:
 - **Aggregates**: Transações como agregados com comportamentos encapsulados
 - **Value Objects**: Objetos imutáveis para dados de transação
 - **Repository Pattern**: Abstração para persistência
-
-### CQRS (Command Query Responsibility Segregation)
-- **Commands**: Transações que modificam estado
-- **Queries**: Consultas de dados somente leitura
-- **Handlers**: Processadores específicos por tipo de operação
-- **Mediator**: Orquestração centralizada de comandos e queries
-
-### Event Sourcing (Parcial)
-- **Eventos de Transação**: Histórico completo de mudanças de estado
-- **Event Dispatcher**: Publicação assíncrona de eventos
-- **Event Handlers**: Processamento reativo de eventos
 
 ### Outros Padrões
 - **Pipeline Pattern**: Pré e pós-processamento de transações
@@ -90,21 +78,17 @@ O SDK segue os princípios da Clean Architecture com separação clara entre:
 ### `bks.sdk.Processing`
 **Núcleo do processamento de transações**
 
-- **Mediator**: Implementação do padrão Mediator para CQRS
 - **Transaction Processing**: Processadores específicos de transação
 - **Pipeline**: Sistema de pipeline para processamento
 
 **Principais Interfaces:**
-- `IBKSMediator`: Interface principal do mediator
-- `IRequest<TResponse>`: Contrato para requests
-- `IRequestHandler<TRequest, TResponse>`: Handlers de comandos
 - `IPipelineExecutor`: Executor de pipeline de transações
 
 ### `bks.sdk.Events`
 **Sistema de eventos distribuídos**
 
 - **Domain Events**: Modelagem de eventos de negócio
-- **Event Brokers**: Integração com RabbitMQ e Kafka
+- **Event Brokers**: Integração com RabbitMQ
 - **Dispatching**: Publicação e consumo de eventos
 
 **Principais Interfaces:**
@@ -174,17 +158,11 @@ dotnet add package bks.sdk
       }
     },
     "Events": {
-      "BrokerType": "RabbitMQ",
-      "RabbitMQ": {
-        "ConnectionString": "amqp://guest:guest@localhost:5672/",
+      "ConnectionString": "amqp://guest:guest@localhost:5672/",
+      "AdditionalSettings": {
         "ExchangeName": "transacoes-events",
         "QueuePrefix": "transacoes",
-        "RetryAttempts": 3
-      },
-      "Kafka": {
-        "BootstrapServers": "localhost:9092",
-        "GroupId": "transacoes-api",
-        "TopicPrefix": "transacoes"
+        "RetryAttempts": "3"
       }
     },
     "Observability": {
@@ -214,15 +192,7 @@ using bks.sdk.Core.Initialization;
 var builder = WebApplication.CreateBuilder(args);
 
 // Configuração do BKS Framework
-builder.Services.AddBKSFramework(builder.Configuration, options =>
-{
-    options.EnableMediator = true;
-    options.EnableTransactionProcessor = true;
-    options.EnableEvents = true;
-});
-
-// Registro de handlers específicos
-builder.Services.AddScoped<IRequestHandler<ProcessarCreditoCommand, Result<CreditoResponse>>, CreditoCommandHandler>();
+builder.Services.AddBKSFramework(builder.Configuration);
 
 // Registro de repositórios e serviços
 builder.Services.AddScoped<IContaRepository, ContaRepository>();
@@ -240,123 +210,7 @@ app.Run();
 
 ## 💡 Exemplos de Uso
 
-### 1. Usando o Padrão Mediator
-
-#### Comando de Crédito
-
-```csharp
-// Domain/Commands/ProcessarCreditoCommand.cs
-public record ProcessarCreditoCommand : IRequest<Result<CreditoResponse>>
-{
-    public string NumeroContaCredito { get; init; } = string.Empty;
-    public decimal Valor { get; init; }
-    public string Descricao { get; init; } = string.Empty;
-    public string? Referencia { get; init; }
-    public string RequestId { get; init; } = string.Empty;
-    public DateTime CreatedAt { get; init; }
-}
-
-public record CreditoResponse
-{
-    public decimal NovoSaldo { get; init; }
-    public DateTime DataProcessamento { get; init; }
-    public string TransacaoId { get; init; } = string.Empty;
-}
-```
-
-#### Handler do Comando
-
-```csharp
-// Application/Handlers/CreditoCommandHandler.cs
-public class CreditoCommandHandler : IRequestHandler<ProcessarCreditoCommand, Result<CreditoResponse>>
-{
-    private readonly IContaRepository _contaRepository;
-    private readonly ILogger<CreditoCommandHandler> _logger;
-
-    public CreditoCommandHandler(IContaRepository contaRepository, ILogger<CreditoCommandHandler> logger)
-    {
-        _contaRepository = contaRepository;
-        _logger = logger;
-    }
-
-    public async Task<Result<CreditoResponse>> Handle(ProcessarCreditoCommand request, CancellationToken cancellationToken)
-    {
-        _logger.LogInformation("Processando crédito de {Valor} para conta {Conta}", 
-            request.Valor, request.NumeroContaCredito);
-
-        var conta = await _contaRepository.GetByNumeroAsync(int.Parse(request.NumeroContaCredito), cancellationToken);
-        if (conta == null)
-        {
-            return Result<CreditoResponse>.Failure("Conta não encontrada");
-        }
-
-        conta.Creditar(request.Valor, request.Descricao ?? "Crédito via API");
-        await _contaRepository.UpdateAsync(conta, cancellationToken);
-
-        return Result<CreditoResponse>.Success(new CreditoResponse
-        {
-            NovoSaldo = conta.Saldo,
-            DataProcessamento = DateTime.UtcNow,
-            TransacaoId = request.RequestId
-        });
-    }
-}
-```
-
-#### Endpoint da API
-
-```csharp
-// Endpoints/TransactionEndpoints.cs
-public static void AddTransactionEndpoints(this WebApplication app)
-{
-    var group = app.MapGroup("api/sdk/v1/transactions")
-                   .WithTags("Transactions")
-                   .RequireAuthorization();
-
-    // Endpoint usando Mediator Pattern
-    group.MapPost("/credito", async (
-        CreditoRequestDto request,
-        IBKSMediator mediator,
-        CancellationToken cancellationToken) =>
-    {
-        var command = new ProcessarCreditoCommand
-        {
-            NumeroContaCredito = request.NumeroConta,
-            Valor = request.Valor,
-            Descricao = request.Descricao,
-            Referencia = request.Referencia,
-            RequestId = Guid.NewGuid().ToString("N"),
-            CreatedAt = DateTime.UtcNow
-        };
-
-        var resultado = await mediator.SendAsync(command, cancellationToken);
-
-        if (resultado.IsSuccess)
-        {
-            return Results.Ok(new TransacaoResponseDto
-            {
-                Sucesso = true,
-                Mensagem = "Crédito processado com sucesso via Mediator!",
-                TransacaoId = command.RequestId,
-                Valor = request.Valor,
-                NovoSaldo = resultado.Value?.NovoSaldo,
-                ProcessadoPor = "Mediator Pattern"
-            });
-        }
-
-        return Results.BadRequest(new TransacaoResponseDto
-        {
-            Sucesso = false,
-            Mensagem = resultado.Error,
-            TransacaoId = command.RequestId
-        });
-    })
-    .WithName("ProcessarCredito")
-    .WithSummary("Processar crédito usando Mediator Pattern");
-}
-```
-
-### 2. Usando Transaction Processor com Pipeline
+### Usando o Transaction Processor com Pipeline
 
 #### Transação de Débito
 
@@ -367,7 +221,7 @@ public class DebitoTransaction : BaseTransaction
     public string NumeroConta { get; set; } = string.Empty;
     public decimal Valor { get; set; }
     public string Descricao { get; set; } = string.Empty;
-    public string? Referencia { get; set; }
+    public string? Referencia { get; init; }
 }
 
 public class DebitoResponse
@@ -421,7 +275,7 @@ group.MapPost("/debito", async (
 .WithSummary("Processar débito usando Transaction Processor");
 ```
 
-### 3. DTOs de Request/Response
+### DTOs de Request/Response
 
 ```csharp
 // DTOs/CreditoRequestDto.cs
@@ -452,7 +306,7 @@ public record TransacaoResponseDto
 }
 ```
 
-### 4. Exemplo de Repositório
+### Exemplo de Repositório
 
 ```csharp
 // Infrastructure/Repositories/ContaRepository.cs
@@ -486,20 +340,7 @@ public class ContaRepository : IContaRepository
 }
 ```
 
-### 5. Exemplos de Requisições HTTP
-
-#### Crédito via Mediator
-```bash
-curl -X POST "https://localhost:7001/api/sdk/v1/transactions/credito" \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
-  -d '{
-    "numeroConta": "12345",
-    "valor": 500.00,
-    "descricao": "Crédito de teste",
-    "referencia": "CRE-001"
-  }'
-```
+### Exemplos de Requisições HTTP
 
 #### Débito via Transaction Processor
 ```bash
@@ -533,7 +374,6 @@ curl -X GET "https://localhost:7001/api/sdk/v1/transactions/conta/12345" \
 - [Domain-Driven Design](https://martinfowler.com/bliki/DomainDrivenDesign.html)
 - [CQRS Pattern](https://martinfowler.com/bliki/CQRS.html)
 - [Event Sourcing](https://martinfowler.com/eaaDev/EventSourcing.html)
-- [Mediator Pattern](https://refactoring.guru/design-patterns/mediator)
 
 ### Observabilidade
 - [OpenTelemetry Concepts](https://opentelemetry.io/docs/concepts/)
@@ -543,7 +383,6 @@ curl -X GET "https://localhost:7001/api/sdk/v1/transactions/conta/12345" \
 
 ### Mensageria
 - [RabbitMQ .NET Client](https://www.rabbitmq.com/dotnet.html)
-- [Confluent Kafka .NET](https://docs.confluent.io/kafka-clients/dotnet/current/overview.html)
 - [Event-Driven Architecture](https://martinfowler.com/articles/201701-event-driven.html)
 
 ### Livros Recomendados
@@ -562,6 +401,6 @@ curl -X GET "https://localhost:7001/api/sdk/v1/transactions/conta/12345" \
 
 ---
 
-**BKS SDK v2.0.0** - Desenvolvido com ❤️ pela equipe BKS para acelerar o desenvolvimento de aplicações financeiras robustas e escaláveis.
+**BKS SDK v2.1.0** - Desenvolvido com ❤️ pela equipe BKS para acelerar o desenvolvimento de aplicações financeiras robustas e escaláveis.
 
-**Última atualização**: Janeiro 2025
+**Última atualização**: Novembro 2025
