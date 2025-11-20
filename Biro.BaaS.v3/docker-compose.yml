@@ -1,0 +1,62 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+  redis:
+    image: redis:7
+    ports:
+      - "6379:6379"
+
+  auth-service:
+    build:
+      context: .
+      dockerfile: infra/docker/Biro.Blocks.Authentication.Dockerfile
+    ports:
+      - "5001:80"
+
+  debit-service:
+    build:
+      context: .
+      dockerfile: infra/docker/Biro.Blocks.Debit.Dockerfile
+    ports:
+      - "5002:80"
+
+  credit-service:
+    build:
+      context: .
+      dockerfile: infra/docker/Biro.Blocks.Credit.Dockerfile
+    ports:
+      - "5003:80"
+
+  balance-service:
+    build:
+      context: .
+      dockerfile: infra/docker/Biro.Blocks.Balance.Dockerfile
+    ports:
+      - "5004:80"
+
+  transfer-service:
+    build:
+      context: .
+      dockerfile: infra/docker/Biro.Blocks.Transfer.Dockerfile
+    ports:
+      - "5005:80"
+
+  api-gateway:
+    build:
+      context: .
+      dockerfile: infra/docker/Biro.API.Gateway.Dockerfile
+    ports:
+      - "8080:80"

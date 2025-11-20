@@ -1,0 +1,48 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Biro.Core.Domain", "src\Core\Biro.Core.Domain\Biro.Core.Domain.csproj", "{...}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Biro.Core.Application", "src\Core\Biro.Core.Application\Biro.Core.Application.csproj", "{...}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Biro.Infrastructure.Persistence.Dapper", "src\Infrastructure\Biro.Infrastructure.Persistence.Dapper\Biro.Infrastructure.Persistence.Dapper.csproj", "{...}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Biro.Infrastructure.Messaging", "src\Infrastructure\Biro.Infrastructure.Messaging\Biro.Infrastructure.Messaging.csproj", "{...}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Biro.Infrastructure.Cache", "src\Infrastructure\Biro.Infrastructure.Cache\Biro.Infrastructure.Cache.csproj", "{...}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Biro.Infrastructure.Observability", "src\Infrastructure\Biro.Infrastructure.Observability\Biro.Infrastructure.Observability.csproj", "{...}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Biro.Blocks.Authentication", "src\Blocks\Biro.Blocks.Authentication\Biro.Blocks.Authentication.csproj", "{...}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Biro.Blocks.Debit", "src\Blocks\Biro.Blocks.Debit\Biro.Blocks.Debit.csproj", "{...}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Biro.Blocks.Credit", "src\Blocks\Biro.Blocks.Credit\Biro.Blocks.Credit.csproj", "{...}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Biro.Blocks.Balance", "src\Blocks\Biro.Blocks.Balance\Biro.Blocks.Balance.csproj", "{...}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Biro.Blocks.Transfer", "src\Blocks\Biro.Blocks.Transfer\Biro.Blocks.Transfer.csproj", "{...}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Biro.API.Gateway", "src\Gateway\Biro.API.Gateway\Biro.API.Gateway.csproj", "{...}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Biro.Tests.Unit", "tests\Biro.Tests.Unit\Biro.Tests.Unit.csproj", "{...}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Biro.Tests.Integration", "tests\Biro.Tests.Integration\Biro.Tests.Integration.csproj", "{...}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Biro.Shared.Contracts", "src\Shared\Biro.Shared.Contracts\Biro.Shared.Contracts.csproj", "{...}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Biro.Blocks.Webhooks", "src\Blocks\Biro.Blocks.Webhooks\Biro.Blocks.Webhooks.csproj", "{...}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,76 @@
+name: BIRO BaaS v3 CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 8.0.x
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build --no-restore
+    - name: Test
+      run: dotnet test --no-build --verbosity normal
+
+  build-and-push-images:
+    runs-on: ubuntu-latest
+    needs: build-and-test
+    steps:
+    - uses: actions/checkout@v3
+    - name: Login to Docker Hub
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+    - name: Build and push Authentication service
+      uses: docker/build-push-action@v3
+      with:
+        context: .
+        dockerfile: Biro.BaaS.v3/infra/docker/Biro.Blocks.Authentication.Dockerfile
+        push: true
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/biro-authentication-service:latest
+    - name: Build and push Debit service
+      uses: docker/build-push-action@v3
+      with:
+        context: .
+        dockerfile: Biro.BaaS.v3/infra/docker/Biro.Blocks.Debit.Dockerfile
+        push: true
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/biro-debit-service:latest
+    - name: Build and push Credit service
+      uses: docker/build-push-action@v3
+      with:
+        context: .
+        dockerfile: Biro.BaaS.v3/infra/docker/Biro.Blocks.Credit.Dockerfile
+        push: true
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/biro-credit-service:latest
+    - name: Build and push Balance service
+      uses: docker/build-push-action@v3
+      with:
+        context: .
+        dockerfile: Biro.BaaS.v3/infra/docker/Biro.Blocks.Balance.Dockerfile
+        push: true
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/biro-balance-service:latest
+    - name: Build and push Transfer service
+      uses: docker/build-push-action@v3
+      with:
+        context: .
+        dockerfile: Biro.BaaS.v3/infra/docker/Biro.Blocks.Transfer.Dockerfile
+        push: true
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/biro-transfer-service:latest
+    - name: Build and push API Gateway
+      uses: docker/build-push-action@v3
+      with:
+        context: .
+        dockerfile: Biro.BaaS.v3/infra/docker/Biro.API.Gateway.Dockerfile
+        push: true
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/biro-api-gateway:latest
