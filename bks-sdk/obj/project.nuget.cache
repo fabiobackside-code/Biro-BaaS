@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "jZRaYWyKx9U=",
+  "dgSpecHash": "AK7HPvfpjSE=",
   "success": true,
-  "projectFilePath": "D:\\Fabio\\BackSide\\Projeto\\Jules\\Biro-BaaS\\bks-sdk\\bks-sdk.csproj",
+  "projectFilePath": "D:\\Fabio\\BackSide\\Projeto\\Jules\\bdk.sdk\\bks-sdk\\bks-sdk.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\fabio\\.nuget\\packages\\confluent.kafka\\2.11.1\\confluent.kafka.2.11.1.nupkg.sha512",
     "C:\\Users\\fabio\\.nuget\\packages\\librdkafka.redist\\2.11.1\\librdkafka.redist.2.11.1.nupkg.sha512",
@@ -51,9 +51,9 @@
       "code": "NU1603",
       "level": "Warning",
       "message": "bks-sdk depends on OpenTelemetry.Instrumentation.AspNetCore (>= 1.11.2) but OpenTelemetry.Instrumentation.AspNetCore 1.11.2 was not found. OpenTelemetry.Instrumentation.AspNetCore 1.12.0 was resolved instead.",
-      "projectPath": "D:\\Fabio\\BackSide\\Projeto\\Jules\\Biro-BaaS\\bks-sdk\\bks-sdk.csproj",
+      "projectPath": "D:\\Fabio\\BackSide\\Projeto\\Jules\\bdk.sdk\\bks-sdk\\bks-sdk.csproj",
       "warningLevel": 1,
-      "filePath": "D:\\Fabio\\BackSide\\Projeto\\Jules\\Biro-BaaS\\bks-sdk\\bks-sdk.csproj",
+      "filePath": "D:\\Fabio\\BackSide\\Projeto\\Jules\\bdk.sdk\\bks-sdk\\bks-sdk.csproj",
       "libraryId": "OpenTelemetry.Instrumentation.AspNetCore",
       "targetGraphs": [
         "net8.0"
@@ -63,9 +63,9 @@
       "code": "NU1603",
       "level": "Warning",
       "message": "bks-sdk depends on OpenTelemetry.Instrumentation.Http (>= 1.11.2) but OpenTelemetry.Instrumentation.Http 1.11.2 was not found. OpenTelemetry.Instrumentation.Http 1.12.0 was resolved instead.",
-      "projectPath": "D:\\Fabio\\BackSide\\Projeto\\Jules\\Biro-BaaS\\bks-sdk\\bks-sdk.csproj",
+      "projectPath": "D:\\Fabio\\BackSide\\Projeto\\Jules\\bdk.sdk\\bks-sdk\\bks-sdk.csproj",
       "warningLevel": 1,
-      "filePath": "D:\\Fabio\\BackSide\\Projeto\\Jules\\Biro-BaaS\\bks-sdk\\bks-sdk.csproj",
+      "filePath": "D:\\Fabio\\BackSide\\Projeto\\Jules\\bdk.sdk\\bks-sdk\\bks-sdk.csproj",
       "libraryId": "OpenTelemetry.Instrumentation.Http",
       "targetGraphs": [
         "net8.0"
