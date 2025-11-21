@@ -2082,11 +2082,11 @@
   "project": {
     "version": "2.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Fabio\\BackSide\\Projeto\\Jules\\bdk.sdk\\bks-sdk\\bks-sdk.csproj",
+      "projectUniqueName": "D:\\Fabio\\BackSide\\Projeto\\Jules\\Biro-BaaS\\bks-sdk\\bks-sdk.csproj",
       "projectName": "bks-sdk",
-      "projectPath": "D:\\Fabio\\BackSide\\Projeto\\Jules\\bdk.sdk\\bks-sdk\\bks-sdk.csproj",
+      "projectPath": "D:\\Fabio\\BackSide\\Projeto\\Jules\\Biro-BaaS\\bks-sdk\\bks-sdk.csproj",
       "packagesPath": "C:\\Users\\fabio\\.nuget\\packages\\",
-      "outputPath": "D:\\Fabio\\BackSide\\Projeto\\Jules\\bdk.sdk\\bks-sdk\\obj\\",
+      "outputPath": "D:\\Fabio\\BackSide\\Projeto\\Jules\\Biro-BaaS\\bks-sdk\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

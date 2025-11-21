@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("bks-sdk")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("2.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("2.0.0+d092f6bcaf890f3514d67f3f0c23750e5d640e37")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("2.0.0+00ab1d3e99cb55f9bef7b0b8614a9d09428a2376")]
 [assembly: System.Reflection.AssemblyProductAttribute("bks-sdk")]
 [assembly: System.Reflection.AssemblyTitleAttribute("bks-sdk")]
 [assembly: System.Reflection.AssemblyVersionAttribute("2.0.0.0")]

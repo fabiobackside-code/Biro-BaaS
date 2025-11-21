@@ -1,5 +1,4 @@
 ﻿using bks.sdk.Middlewares.ExceptionHandling;
-using bks.sdk.Middlewares.Observability;
 using bks.sdk.Middlewares.RequestCorrelation;
 using Microsoft.AspNetCore.Builder;
 using System;
@@ -18,9 +17,6 @@ public static class MiddlewareExtensions
 
         // Exception Handling Global (capturar todas as exceções)
         app.UseMiddleware<GlobalExceptionMiddleware>();
-
-        // Observability Middleware (para logs e traces)
-        app.UseMiddleware<ObservabilityMiddleware>();
 
         // BKS Framework Middleware (middleware principal unificado)
         app.UseMiddleware<BKSFrameworkMiddleware>();
